@@ -1,0 +1,256 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "빡코딩 블로그",
+        "description": "빡코딩 블로그 API 문서",
+        "contact": {
+            "email": "dev_jeongdaeri@email.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "3.3.6"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api/v1",
+            "description": "테스트 서버"
+        },
+        {
+            "url": "http://localhost:7000/api/v1",
+            "description": "실 서버"
+        }
+    ],
+    "paths": {
+        "/posts": {
+            "get": {
+                "tags": [
+                    "블로그 포스트"
+                ],
+                "summary": "모든 포스팅 가져오기",
+                "description": "모든 포스팅을 가져온다.",
+                "operationId": "getPostList",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "파라매터",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "페이지",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "응답 성공"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key_security_example": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "블로그 포스트"
+                ],
+                "summary": "포스트 추가하기",
+                "description": "포스팅을 추가하고 추가된 포스팅을 반환한다.",
+                "operationId": "storePost",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PostRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "응답 성공 새 포스팅 만들어짐",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key_security_example": []
+                    }
+                ]
+            }
+        },
+        "/posts/{id}": {
+            "get": {
+                "tags": [
+                    "블로그 포스트"
+                ],
+                "summary": "특정 포스팅 가져오기",
+                "description": "특정 포스팅 아이템을 가져온다.",
+                "operationId": "getPostById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Post_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "응답 성공",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "데이터를 찾을 수 없습니다"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key_security_example": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "블로그 포스트"
+                ],
+                "summary": "기존 포스팅 수정하기",
+                "description": "기존 포스팅을 수정하고 수정된 포스팅을 반환한다.",
+                "operationId": "updatePost",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Post_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PostRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "응답 성공",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key_security_example": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "블로그 포스트"
+                ],
+                "summary": "기존 포스팅 삭제하기",
+                "description": "기존 포스팅을 삭제한다.",
+                "operationId": "deletePost",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Post_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "삭제 성공",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key_security_example": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PostRequest": {
+                "title": "Post request",
+                "description": "Post request body data",
+                "required": [
+                    "title"
+                ],
+                "type": "object"
+            },
+            "Post": {
+                "title": "Post model",
+                "description": "포스팅 모델 입니다.",
+                "xml": {
+                    "name": "Post"
+                }
+            }
+        }
+    }
+}
